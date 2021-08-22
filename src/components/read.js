@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'semantic-ui-react'
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import {  NotificationManager} from 'react-notifications';
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';  
 export default function Read() {
     const [APIData, setAPIData] = useState([]);
     let history = useHistory();
@@ -17,10 +20,26 @@ export default function Read() {
     const onDelete = (id) => {
         axios.delete(`https://60fbca4591156a0017b4c8a7.mockapi.io/fakeData/${id}`)
             .then(() => {
+                NotificationManager.success("User Deleted Successfully",'User');
                 getData();
             })
     }
-
+  const  deleteConfirm = (id) => {
+        confirmAlert({
+          title: 'Confirm to Delete',
+          message: 'Are you sure to do this.',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () =>  onDelete(id)
+            },
+            {
+              label: 'No',
+              onClick: () =>  console.log("No clicked")
+            }
+          ]
+        });
+      };
     const setData = (data) => {
         let { id, firstName, lastName, checkbox } = data;
         localStorage.setItem('ID', id);
@@ -58,7 +77,7 @@ export default function Read() {
                                     <Button onClick={() => setData(data)}>Update</Button>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <Button onClick={() => onDelete(data.id)}>Delete</Button>
+                                    <Button onClick={() =>deleteConfirm(data.id)}>Delete</Button>
                                 </Table.Cell>
                             </Table.Row>
                         )

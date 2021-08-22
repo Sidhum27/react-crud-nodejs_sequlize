@@ -2,6 +2,8 @@ import React, { useState ,useEffect} from 'react';
 import { Button, Checkbox, Form } from 'semantic-ui-react'
 import axios from 'axios';
 import { useHistory } from 'react-router';
+import {  NotificationManager} from 'react-notifications';
+ 
 
 export default function Create() {
     const [firstName, setFirstName] = useState('');
@@ -15,6 +17,7 @@ export default function Create() {
             lastName,
             checkbox
         }).then(() => {
+            NotificationManager.success('User Saved Successfully', 'User');
             history.push('/read')
         })
     }
@@ -27,7 +30,7 @@ export default function Create() {
     
     return (
         <div>
-          
+             
             <Form className="create-form">
                 <Form.Field>
                     <label>First Name</label>
@@ -42,6 +45,7 @@ export default function Create() {
                 </Form.Field>
                 <Button onClick={postData} type='submit'>Submit</Button>
             </Form>
+         
         </div>
     )
 }

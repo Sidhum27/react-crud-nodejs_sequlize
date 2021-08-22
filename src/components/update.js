@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button, Checkbox, Form } from 'semantic-ui-react'
 import axios from 'axios';
 import { useHistory } from 'react-router';
+import {NotificationManager} from 'react-notifications';
+
 
 export default function Update() {
     let history = useHistory();
@@ -24,6 +26,7 @@ export default function Update() {
             checkbox
         }).then(() => {
             history.push('/read')
+            NotificationManager.success('User Update Successfully', 'User');
         })
     }
     return (
@@ -43,6 +46,7 @@ export default function Update() {
                 <Button type='submit' onClick={updateAPIData}>Update</Button>
                 <Button   onClick={()=>history.push('/read')}>Cancel</Button>
             </Form>
+            
         </div>
     )
 }
